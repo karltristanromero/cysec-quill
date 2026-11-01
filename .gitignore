@@ -1,0 +1,57 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Obsidian internal configs and sensitive certificates
+.obsidian/
+# Antigravity agent & local MCP configuration
+.agents/
+
+# Smart Connections environment data
+.smart-env/
+
+# Obsidian trash
+.trash/
+
+
+# ──────────────────────────────────────────────────
+# Security: Keys, certificates, and credentials
+# ──────────────────────────────────────────────────
+*.pem
+*.key
+*.cert
+*.crt
+*.p12
+*.pfx
+id_rsa*
+*.ovpn
+
+# ──────────────────────────────────────────────────
+# Raw scan dumps and binary captures
+# ──────────────────────────────────────────────────
+*.nmap
+*.gnmap
+*.pcap
+*.pcapng
+*.dmp
+*.raw
+*.cap
+
+# ──────────────────────────────────────────────────
+# OS and editor artifacts
+# ──────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+*.swo
+*~
+
+# ──────────────────────────────────────────────────
+# Python cache
+# ──────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+.venv/
