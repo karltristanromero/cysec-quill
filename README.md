@@ -1,12 +1,12 @@
-# 🛡️ CySec Quill
+# CySec Quill
 
-> Cybersecurity writeup and lab research repository — structured for publication, designed for continuous learning.
+> Personal cybersecurity repository for lab research notes, detection engineering experiments, and CTF writeups.
 
 [![Update README Index](https://github.com/YOUR_USERNAME/cysec-quill/actions/workflows/update-readme.yml/badge.svg)](https://github.com/YOUR_USERNAME/cysec-quill/actions/workflows/update-readme.yml)
 
 ---
 
-## 📂 Repository Structure
+## Repository Structure
 
 ```
 cysec-quill/
@@ -35,17 +35,17 @@ cysec-quill/
 
 ---
 
-## 📋 Writeup Index
+## Writeup Index
 
 <!-- WRITEUP_TABLE_START -->
 
-### 📝 Published Writeups & Research
+### Published Writeups & Research
 
 | Research / Writeup | Category | Published |
 | :--- | :--- | :--- |
 | [Host-Based Telemetry and Dynamic Defense: SSH Brute-Force Detection in Wazuh](docs/lab-research/detection-engineering/wazuh-ssh-brute-force/index.md) | `detection-engineering` | 2026-10-31 |
 
-### 🔬 In-Progress Drafts & Experiments (WIP)
+### In-Progress Drafts & Experiments (WIP)
 
 *No drafts or WIP items yet.*
 
@@ -53,7 +53,7 @@ cysec-quill/
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Using a template
 
@@ -73,10 +73,10 @@ mkdir -p docs/lab-research/detection-engineering/lab-name/assets/
 python3 scripts/generate_index.py
 ```
 
-The GitHub Actions workflow also runs this automatically on push to `main` when markdown files change.
+The GitHub Actions workflow also runs this automatically on push to `sandbox` or `main` when markdown files change.
 
 ---
 
-## 📜 License
+## License
 
 This repository contains personal research notes and educational cybersecurity content.

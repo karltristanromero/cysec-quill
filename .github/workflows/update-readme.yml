@@ -2,7 +2,7 @@ name: Update README Index
 
 on:
   push:
-    branches: [main]
+    branches: [main, sandbox]
     paths:
       - "docs/**/*.md"
       - "drafts/**/*.md"

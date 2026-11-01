@@ -1,11 +1,10 @@
-# 🚀 Human Contributor Workflow & Runbook
-<!-- AI NOTE: This document is a human-facing operational runbook. AI coding assistants do NOT need to ingest or read this file automatically on every prompt or task unless explicitly requested by the user. -->
+# Contributor Workflow and Runbook
 
-This document defines the standard end-to-end operational lifecycle for human authors working inside **CySec Quill**. It bridges raw research capture in **Obsidian**, modular asset organization, publication scaffolding, and automated **Git / CI/CD** indexing.
+This document defines the standard end-to-end operational lifecycle for authors working inside **CySec Quill**. It covers research capture in **Obsidian**, asset organization, publication formatting, and automated **Git / CI/CD** indexing.
 
 ---
 
-## 🧭 High-Level Architecture Lifecycle
+## High-Level Architecture Lifecycle
 
 ```
 [ Phase 1: Exploration ]
@@ -16,7 +15,7 @@ drafts/scratchpad/<topic>-notes/
   └── index.md (MOC with status: "WIP")
       │
       ▼ (Synthesize & Promote)
-[ Phase 2: Production ]
+[ Phase 2: Production Staging ]
       │
       ▼
 docs/lab-research/<category>/<writeup-slug>/
@@ -28,13 +27,14 @@ docs/lab-research/<category>/<writeup-slug>/
   └── Update drafts/scratchpad/<topic>-notes/index.md: status: "Completed"
       │
       ▼
-[ Phase 4: Version Control & CI/CD ]
-  └── git commit & push ──► GitHub Actions auto-updates README tables
+[ Phase 4: SDLC Branching & Release Pipeline ]
+  ├── Commit & push to "sandbox" branch (Pre-production validation & CI check)
+  └── Pull Request / Merge to "main" (Production release)
 ```
 
 ---
 
-## 🛠️ Phase 1: Scratchpad & Lab Research (WIP)
+## Phase 1: Scratchpad & Lab Research (WIP)
 
 All live testing, command dumps, and unrefined notes belong in `drafts/scratchpad/`.
 
@@ -69,18 +69,18 @@ author: "ajax"
 * [[detection]] — Windows Event ID 4768 / 4769 filter tuning
 ```
 
-> **Why this matters:**
+> **Note:**
 > * Having `status: "WIP"` ensures `python3 scripts/generate_index.py` automatically features this in the **In-Progress Drafts & Experiments (WIP)** table in `README.md`.
 > * The `index.md` file serves as the single connection point (Map of Content / MOC) for Obsidian's graph without polluting individual raw notes.
 
 ### 3. Take Raw Notes in Obsidian
 * Create individual notes inside `drafts/scratchpad/kerberos-attacks/` (e.g., `reconnaissance.md`, `asreproast.md`).
-* Freely link them together using Obsidian wikilinks: `[[asreproast]]`, `[[reconnaissance]]`.
-* Save temporary network scans (`.nmap`, `.pcap`) in `drafts/raw-scans/` (these are automatically ignored by Git per `.gitignore`).
+* Link them together using Obsidian wikilinks: `[[asreproast]]`, `[[reconnaissance]]`.
+* Save temporary network scans (`.nmap`, `.pcap`) in `drafts/raw-scans/` (these are ignored by Git per `.gitignore`).
 
 ---
 
-## 📝 Phase 2: Synthesizing into a Published Writeup
+## Phase 2: Synthesizing into a Published Writeup
 
 Once experiments are validated, promote the research into the public `docs/` tree.
 
@@ -126,7 +126,7 @@ lab_environment:
 ---
 ```
 
-> **Obsidian Tip:** Because `.obsidian/app.json` has `"propertiesInDocument": "hidden"`, this YAML block remains invisible when reading or editing inside Obsidian. You will only see the clean markdown heading `# Active Directory...`.
+> **Obsidian Configuration:** Because `.obsidian/app.json` has `"propertiesInDocument": "hidden"`, this YAML block remains hidden when reading or editing inside Obsidian. You will see the markdown heading `# Active Directory...`.
 
 ### 4. Modular Assets Convention
 * Save screenshots directly in `docs/lab-research/<category>/<slug>/assets/` (e.g., `assets/asreproast-bloodhound.png`).
@@ -134,18 +134,18 @@ lab_environment:
   ```markdown
   ![BloodHound Analysis](assets/asreproast-bloodhound.png)
   ```
-* **Never** use absolute paths or a monolithic root image dump.
+* Avoid absolute paths or shared root directories for writeup images.
 
 ---
 
-## 🔄 Phase 3: Lifecycle Transition & Connecting Notes
+## Phase 3: Lifecycle Transition & Connecting Notes
 
-Now connect the scratchpad to the finished output:
+Connect the scratchpad to the finished output:
 
 1. **Link Scratchpad Hub to Output:**  
    In `drafts/scratchpad/kerberos-attacks/index.md`, update the published link:
    ```markdown
-   > **🎯 Published Output:** [[docs/lab-research/detection-engineering/kerberos-roasting-telemetry/index|Active Directory Kerberos Telemetry: Detecting AS-REP Roasting & Kerberoasting]]
+   > **Published Output:** [[docs/lab-research/detection-engineering/kerberos-roasting-telemetry/index|Active Directory Kerberos Telemetry: Detecting AS-REP Roasting & Kerberoasting]]
    ```
 
 2. **Retire the Scratchpad from WIP:**  
@@ -154,12 +154,14 @@ Now connect the scratchpad to the finished output:
    status: "Completed" # Excludes it from the active WIP table in README.md
    ```
 
-3. **Privacy Rule:**  
-   Keep `docs/` clean of outbound links into `drafts/`. In Obsidian, navigating to the published writeup will automatically show the scratchpad hub in the **Backlinks** pane and **Graph View** via inbound link detection.
+3. **Link Boundary Rule:**  
+   Keep `docs/` free of outbound links pointing into `drafts/`. In Obsidian, navigating to the published writeup will display the scratchpad hub in the **Backlinks** pane and **Graph View** via inbound link detection.
 
 ---
 
-## ⚡ Phase 4: Local Preview & Git Workflow
+## Phase 4: SDLC Branching & Release Workflow
+
+All writeups follow a standard release lifecycle: work is validated on a pre-production branch (`sandbox`) before being merged into the production trunk (`main`) via a GitHub Pull Request.
 
 ### 1. Test Index Generation Locally (Optional)
 Run the generator script to verify table updates:
@@ -176,29 +178,47 @@ Run `git status` to verify no sensitive data or dumps were tracked:
 ```bash
 git status
 ```
-* Keys (`.pem`, `.key`, `id_rsa`), environment files (`.env`), and scan dumps (`.pcap`, `.nmap`) should **not** appear as untracked files (shielded by `.gitignore`).
+* Keys (`.pem`, `.key`, `id_rsa`), environment files (`.env`), and scan dumps (`.pcap`, `.nmap`) should not appear as untracked files (ignored by `.gitignore`).
 
-### 3. Stage & Commit Content
+### 3. Switch to or Create the `sandbox` Branch
+Ensure all draft and writeup work is developed on `sandbox`:
+
+```bash
+git checkout -B sandbox
+```
+
+### 4. Stage & Commit Content to `sandbox`
 Commit your content changes:
 
 ```bash
-git add docs/ drafts/
+git add docs/ drafts/ README.md
 git commit -m "feat(detection): publish kerberos roasting telemetry writeup"
 ```
 
-### 4. Push & CI/CD Automation
-Push to the remote repository:
+### 5. Deploy to `sandbox` & Validate
+Push to the remote `sandbox` branch:
 
 ```bash
-git push origin main
+git push -u origin sandbox
 ```
 
-* The GitHub Actions workflow (`.github/workflows/update-readme.yml`) triggers automatically on push to `main` when markdown files change.
-* The action runs `scripts/generate_index.py` in the runner and commits any updated table modifications via `github-actions[bot]`.
+* The GitHub Actions workflow (`.github/workflows/update-readme.yml`) runs on `sandbox`.
+* Review your changes, generated tables, and assets on GitHub under the `sandbox` branch.
+
+### 6. Promote to `main` via GitHub Pull Request
+Once validated on GitHub:
+1. Open a **Pull Request** on GitHub: `sandbox` -> `main`.
+2. Review the diff and complete the merge on GitHub.
+3. Switch back to `main` locally and pull the newly merged changes to keep your local branch synchronized:
+
+```bash
+git checkout main
+git pull origin main
+```
 
 ---
 
-## 📋 Quick Reference Cheat Sheet
+## Quick Reference Cheat Sheet
 
 | Task | Location | Command / Action |
 | :--- | :--- | :--- |
@@ -208,4 +228,7 @@ git push origin main
 | **Save screenshots** | `.../<slug>/assets/` | Relative links: `![Alt](assets/img.png)` |
 | **Mark draft completed** | `drafts/scratchpad/<topic>/index.md` | Set `status: "Completed"` |
 | **Update README locally** | Repo Root | `python3 scripts/generate_index.py` |
-| **Trigger automated indexing**| Repo Root | `git push origin main` |
+| **Work on sandbox branch** | Repo Root | `git checkout -B sandbox && git commit -m "..."` |
+| **Deploy & test on sandbox** | Repo Root | `git push -u origin sandbox` |
+| **Merge via GitHub PR** | GitHub Web UI | Open PR: `sandbox` -> `main`, review & merge |
+| **Sync local main** | Repo Root | `git checkout main && git pull origin main` |

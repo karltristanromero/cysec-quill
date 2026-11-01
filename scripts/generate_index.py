@@ -156,9 +156,9 @@ def update_readme(published_table: str, wip_table: str) -> None:
 
     replacement = (
         f"{START_SENTINEL}\n\n"
-        f"### 📝 Published Writeups & Research\n\n"
+        f"### Published Writeups & Research\n\n"
         f"{published_table}\n"
-        f"### 🔬 In-Progress Drafts & Experiments (WIP)\n\n"
+        f"### In-Progress Drafts & Experiments (WIP)\n\n"
         f"{wip_table}\n"
         f"{END_SENTINEL}"
     )
@@ -175,7 +175,7 @@ def update_readme(published_table: str, wip_table: str) -> None:
             if e.get("status", "").lower() == "published"
         ]
     )
-    print(f"✅ README.md updated — {pub_count} published entry(ies) indexed.")
+    print(f"README.md updated: {pub_count} published entry(ies) indexed.")
 
 
 # ---------------------------------------------------------------------------
