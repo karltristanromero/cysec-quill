@@ -2,8 +2,6 @@
 
 > Personal cybersecurity repository for lab research notes, detection engineering experiments, and CTF writeups.
 
-[![Update README Index](https://github.com/YOUR_USERNAME/cysec-quill/actions/workflows/update-readme.yml/badge.svg)](https://github.com/karltristanromero/cysec-quill/actions/workflows/update-readme.yml)
-
 ---
 ![margo-guryan](/assets/global/margo-guryan.jpeg)
 ## Repository Structure
