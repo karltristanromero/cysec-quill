@@ -41,6 +41,7 @@ cysec-quill/
 
 | Research / Writeup | Category | Published |
 | :--- | :--- | :--- |
+| [OSINT - Treasure Hunt Time](docs/ctf/treasure-hunt-time/index.md) | `ctf` | 2026-11-04 |
 | [Host-Based Telemetry and Dynamic Defense: SSH Brute-Force Detection in Wazuh](docs/lab-research/detection-engineering/wazuh-ssh-brute-force/index.md) | `detection-engineering` | 2026-10-31 |
 
 ### In-Progress Drafts & Experiments (WIP)
